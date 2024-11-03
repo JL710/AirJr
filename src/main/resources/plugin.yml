@@ -1,0 +1,17 @@
+name: AirJR
+version: '1.0-SNAPSHOT'
+main: jl710.airJR.AirJR
+api-version: '1.21'
+
+commands:
+  jr_create:
+    description: "Create a jump and run."
+    usage: "/jr_create <name> <pos1> <pos2>"
+  jr_list:
+    description: "Lists all jump and runs."
+  jr_delete:
+    usage: "/delete <name>"
+    description: "Deletes a jump and run"
+  jr_start:
+    usage: "/jr_start <name>"
+    description: "start a jump and run"
