@@ -1,11 +1,13 @@
 package jl710.airJR
 
+import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 
-interface SubPlugin: CommandExecutor {
+interface SubPlugin: CommandExecutor, Listener {
     fun onEnable()
 
     fun onDisable()
@@ -17,7 +19,7 @@ class AirJR : JavaPlugin(), CommandExecutor {
 
     private val dao = JRDao("airJR.sqlite3")
 
-    private val subPlugins: List<SubPlugin> = listOf(JrManage(dao))
+    private val subPlugins: List<SubPlugin> = listOf(JrManage(dao), JrPlay(dao))
 
     override fun onEnable() {
         for (subPlug in subPlugins) {
@@ -25,6 +27,7 @@ class AirJR : JavaPlugin(), CommandExecutor {
             for (cmd in subPlug.commands()) {
                 getCommand(cmd)!!.setExecutor(subPlug)
             }
+            Bukkit.getPluginManager().registerEvents(subPlug, this)
         }
         logger.info("Plugin AirJR Loaded")
     }
@@ -37,13 +40,6 @@ class AirJR : JavaPlugin(), CommandExecutor {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
         when (command.name) {
-            "jr_start" -> {
-                if (args == null || args.count() != 1) {
-                    sender.sendMessage("Invalid arguments.")
-                    return false
-                }
-                // TODO: to starting of j & r
-            }
             else -> {
                 sender.sendMessage("The Command could not be executed.")
             }

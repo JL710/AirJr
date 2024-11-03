@@ -62,7 +62,7 @@ class JrManage(private val dao: JRDao): SubPlugin, CommandExecutor {
                 val jrs = dao.getJrs()
                 for (j in jrs) {
                     if (j.name == args[0]) {
-                        if (!dao.deleteJrs(j)) {
+                        if (!dao.deleteJr(j)) {
                             sender.sendMessage("Could not delete jump and run because of database issue.")
                         } else {
                             sender.sendMessage("Deleted jump and run ${j.name} successfully.")
