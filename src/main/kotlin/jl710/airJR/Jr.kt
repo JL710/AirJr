@@ -24,6 +24,7 @@ data class Jr(val id: Int, val location1: Location, val location2: Location, val
             newBlock.y in blocks.map { x -> x.y }.toSet() || // check if blocks are under / over each other
             newBlock.distance(blocks.last()) < 1 ||
             newBlock.distance(blocks.last()) >= 5 ||
+            newBlock.distance(blocks.first()) < 5 || // the blocks need to be somewhat far away from each other and not stacked up
             minAngle(blocks.last().clone().subtract(newBlock), blocks.dropLast(1).last().clone().subtract(newBlock)) < 0.26) { // 0.27 = 15°
             newBlock.x = blocks.last().x + randomInt(-4, 4).toDouble()
             newBlock.y = blocks.last().y + randomInt(-1, 1).toDouble()
