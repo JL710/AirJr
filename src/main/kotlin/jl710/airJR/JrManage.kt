@@ -19,7 +19,7 @@ class JrManage(private val dao: JRDao): SubPlugin, CommandExecutor {
         when (command.name) {
             "jr_create" -> {
                 if (args == null || args.count() != 7) {
-                    sender.sendMessage("You did not provide the correct arguments. /jr_create <name> <pos1> <pos2>")
+                    sender.sendMessage("You did not provide the correct arguments.")
                     return false
                 }
                 val name = args[0]
