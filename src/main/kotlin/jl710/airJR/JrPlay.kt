@@ -1,5 +1,6 @@
 package jl710.airJR
 
+import kotlin.collections.shuffle
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
@@ -84,7 +85,7 @@ class JrPlay(private val dao: JRDao) : SubPlugin, CommandExecutor {
         if (run.newBlocksNeeded(Vector(event.player.x, event.player.y, event.player.z))) {
             setBlock(event.player.world, run.blocks.first(), "minecraft:air")
             run.nextBlock()
-            setBlock(event.player.world, run.blocks.last(), "minecraft:stone")
+            setRandomBlock(event.player.world, run.blocks.last())
             dao.updateRun(run)
         }
     }
@@ -92,7 +93,7 @@ class JrPlay(private val dao: JRDao) : SubPlugin, CommandExecutor {
 
 fun placeBlocks(run: Run) {
     for (block in run.blocks) {
-        setBlock(run.jr.location1.world, block, "minecraft:stone")
+        setRandomBlock(run.jr.location1.world, block)
     }
 }
 
@@ -100,6 +101,36 @@ fun deleteBlocks(run: Run) {
     for (block in run.blocks) {
         setBlock(run.jr.location1.world, block, "minecraft:air")
     }
+}
+
+fun setRandomBlock(world: World, position: Vector) {
+    val materials =
+            mutableListOf(
+                    "minecraft:terracotta",
+                    "minecraft:white_terracotta",
+                    "minecraft:orange_terracotta",
+                    "minecraft:magenta_terracotta",
+                    "minecraft:light_blue_terracotta",
+                    "minecraft:yellow_terracotta",
+                    "minecraft:lime_terracotta",
+                    "minecraft:pink_terracotta",
+                    "minecraft:gray_terracotta",
+                    "minecraft:light_gray_terracotta",
+                    "minecraft:cyan_terracotta",
+                    "minecraft:purple_terracotta",
+                    "minecraft:blue_terracotta",
+                    "minecraft:brown_terracotta",
+                    "minecraft:green_terracotta",
+                    "minecraft:red_terracotta",
+                    "minecraft:black_terracotta"
+            )
+    materials.shuffle()
+    world.setBlockData(
+            position.x.toInt(),
+            position.y.toInt(),
+            position.z.toInt(),
+            Bukkit.createBlockData(materials.first())
+    )
 }
 
 fun setBlock(world: World, position: Vector, block: String) {
