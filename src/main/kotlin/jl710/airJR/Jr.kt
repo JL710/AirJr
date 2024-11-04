@@ -1,10 +1,10 @@
 package jl710.airJR
 
-import org.bukkit.Location
-import org.bukkit.util.Vector
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.random.Random
+import org.bukkit.Location
+import org.bukkit.util.Vector
 
 data class Jr(val id: Int, val location1: Location, val location2: Location, val name: String) {
     init {
@@ -19,13 +19,20 @@ data class Jr(val id: Int, val location1: Location, val location2: Location, val
         }
 
         val newBlock = blocks.last().clone()
-        while (
-            !inBounds(newBlock) ||
-            newBlock.y in blocks.map { x -> x.y }.toSet() || // check if blocks are under / over each other
-            newBlock.distance(blocks.last()) < 1 ||
-            newBlock.distance(blocks.last()) >= 5 ||
-            newBlock.distance(blocks.first()) < 5 || // the blocks need to be somewhat far away from each other and not stacked up
-            minAngle(blocks.last().clone().subtract(newBlock), blocks.dropLast(1).last().clone().subtract(newBlock)) < 0.26) { // 0.27 = 15°
+        while (!inBounds(newBlock) ||
+                newBlock.y in
+                        blocks
+                                .map { x -> x.y }
+                                .toSet() || // check if blocks are under / over each other
+                newBlock.distance(blocks.last()) < 1 ||
+                newBlock.distance(blocks.last()) >= 5 ||
+                newBlock.distance(blocks.first()) <
+                        5 || // the blocks need to be somewhat far away from each other and not
+                // stacked up
+                minAngle(
+                        blocks.last().clone().subtract(newBlock),
+                        blocks.dropLast(1).last().clone().subtract(newBlock)
+                ) < 0.26) { // 0.27 = 15°
             newBlock.x = blocks.last().x + randomInt(-4, 4).toDouble()
             newBlock.y = blocks.last().y + randomInt(-1, 1).toDouble()
             newBlock.z = blocks.last().z + randomInt(-4, 4).toDouble()
@@ -46,13 +53,13 @@ data class Jr(val id: Int, val location1: Location, val location2: Location, val
         val xRange = listOf(location1.x, location2.x)
         val yRange = listOf(location1.y, location2.y)
         val zRange = listOf(location1.z, location2.z)
-        if (vec.x <= xRange.min() || vec.x > xRange.max() ) {
+        if (vec.x <= xRange.min() || vec.x > xRange.max()) {
             return false
         }
-        if (vec.y <= yRange.min() || vec.y > yRange.max() ) {
+        if (vec.y <= yRange.min() || vec.y > yRange.max()) {
             return false
         }
-        if (vec.z <= zRange.min() || vec.z > zRange.max() ) {
+        if (vec.z <= zRange.min() || vec.z > zRange.max()) {
             return false
         }
         return true
@@ -60,9 +67,9 @@ data class Jr(val id: Int, val location1: Location, val location2: Location, val
 
     private fun getRandomFirstBlock(): Vector {
         return Vector(
-            randomInt(location1.x.toInt(), location2.x.toInt()),
-            randomInt(location1.y.toInt(), location2.y.toInt()),
-            randomInt(location1.z.toInt(), location2.z.toInt())
+                randomInt(location1.x.toInt(), location2.x.toInt()),
+                randomInt(location1.y.toInt(), location2.y.toInt()),
+                randomInt(location1.z.toInt(), location2.z.toInt())
         )
     }
 

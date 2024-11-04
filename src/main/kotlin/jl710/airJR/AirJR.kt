@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 
-interface SubPlugin: CommandExecutor, Listener {
+interface SubPlugin : CommandExecutor, Listener {
     fun onEnable()
 
     fun onDisable()
@@ -38,7 +38,12 @@ class AirJR : JavaPlugin(), CommandExecutor {
         }
     }
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
+    override fun onCommand(
+            sender: CommandSender,
+            command: Command,
+            label: String,
+            args: Array<out String>?
+    ): Boolean {
         when (command.name) {
             else -> {
                 sender.sendMessage("The Command could not be executed.")

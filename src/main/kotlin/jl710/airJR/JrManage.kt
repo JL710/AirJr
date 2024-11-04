@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class JrManage(private val dao: JRDao): SubPlugin, CommandExecutor {
+class JrManage(private val dao: JRDao) : SubPlugin, CommandExecutor {
     override fun commands(): Set<String> {
         return setOf("jr_create", "jr_list", "jr_delete")
     }
@@ -15,7 +15,12 @@ class JrManage(private val dao: JRDao): SubPlugin, CommandExecutor {
 
     override fun onDisable() {}
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
+    override fun onCommand(
+            sender: CommandSender,
+            command: Command,
+            label: String,
+            args: Array<out String>?
+    ): Boolean {
         when (command.name) {
             "jr_create" -> {
                 if (args == null || args.count() != 7) {
@@ -37,7 +42,12 @@ class JrManage(private val dao: JRDao): SubPlugin, CommandExecutor {
                     val y2 = args[5].toDouble()
                     val z2 = args[6].toDouble()
                     val world = (sender as Player).world
-                    val jr = dao.createJr(Location(world, x1, y1, z1), Location(world, x2, y2, z2), name)
+                    val jr =
+                            dao.createJr(
+                                    Location(world, x1, y1, z1),
+                                    Location(world, x2, y2, z2),
+                                    name
+                            )
                 } catch (_: NumberFormatException) {
                     sender.sendMessage("The arguments of the command could not be parsed")
                     return false
@@ -49,7 +59,9 @@ class JrManage(private val dao: JRDao): SubPlugin, CommandExecutor {
                 val message = StringBuilder("List of Jump and Runs:")
                 for (jr in jrs) {
                     with(jr) {
-                        message.append("\n$name -> ${location1.x.toInt()} ${location1.y.toInt()} ${location1.z.toInt()} to ${location2.x.toInt()} ${location2.y.toInt()} ${location2.z.toInt()}")
+                        message.append(
+                                "\n$name -> ${location1.x.toInt()} ${location1.y.toInt()} ${location1.z.toInt()} to ${location2.x.toInt()} ${location2.y.toInt()} ${location2.z.toInt()}"
+                        )
                     }
                 }
                 sender.sendMessage(message.toString())
@@ -63,7 +75,9 @@ class JrManage(private val dao: JRDao): SubPlugin, CommandExecutor {
                 for (j in jrs) {
                     if (j.name == args[0]) {
                         if (!dao.deleteJr(j)) {
-                            sender.sendMessage("Could not delete jump and run because of database issue.")
+                            sender.sendMessage(
+                                    "Could not delete jump and run because of database issue."
+                            )
                         } else {
                             sender.sendMessage("Deleted jump and run ${j.name} successfully.")
                         }

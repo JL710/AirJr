@@ -12,18 +12,21 @@ import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.util.Vector
 
-class JrPlay(private val dao: JRDao): SubPlugin, CommandExecutor {
+class JrPlay(private val dao: JRDao) : SubPlugin, CommandExecutor {
     override fun commands(): Set<String> {
         return setOf("jr_start")
     }
 
-    override fun onEnable() {
-    }
+    override fun onEnable() {}
 
-    override fun onDisable() {
-    }
+    override fun onDisable() {}
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
+    override fun onCommand(
+            sender: CommandSender,
+            command: Command,
+            label: String,
+            args: Array<out String>?
+    ): Boolean {
         when (command.name) {
             "jr_start" -> {
                 if (args == null || args.count() != 1) {
@@ -36,12 +39,23 @@ class JrPlay(private val dao: JRDao): SubPlugin, CommandExecutor {
                     return false
                 }
                 val first_blocks = jr.getFirstBlocks()
-                val run = dao.createRun((sender as Player).identity().uuid().toString(), first_blocks, jr.id)
+                val run =
+                        dao.createRun(
+                                (sender as Player).identity().uuid().toString(),
+                                first_blocks,
+                                jr.id
+                        )
 
-                sender.teleport(Location(jr.location1.world, first_blocks[0].x, first_blocks[0].y + 2, first_blocks[0].z))
+                sender.teleport(
+                        Location(
+                                jr.location1.world,
+                                first_blocks[0].x,
+                                first_blocks[0].y + 2,
+                                first_blocks[0].z
+                        )
+                )
 
                 placeBlocks(run)
-
             }
             else -> {
                 sender.sendMessage("The Command could not be executed.")
@@ -89,5 +103,10 @@ fun deleteBlocks(run: Run) {
 }
 
 fun setBlock(world: World, position: Vector, block: String) {
-    world.setBlockData(position.x.toInt(), position.y.toInt(), position.z.toInt(), Bukkit.createBlockData(block))
+    world.setBlockData(
+            position.x.toInt(),
+            position.y.toInt(),
+            position.z.toInt(),
+            Bukkit.createBlockData(block)
+    )
 }
