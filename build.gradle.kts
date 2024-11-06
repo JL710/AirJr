@@ -31,7 +31,8 @@ val targetJavaVersion = 21
 kotlin { jvmToolchain(targetJavaVersion) }
 
 tasks.withType<Jar>() {
-    destinationDirectory = file("/mnt/e/Programmieren/minecraft-plugins/mc-server/plugins/")
+    val path = System.getenv("PLUGIN_DIR") ?: "./build"
+    destinationDirectory = file(path)
 }
 
 tasks.jar { enabled = false }
