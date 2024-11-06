@@ -43,6 +43,10 @@ class JRDao(path: String) {
                             "FOREIGN KEY(jr_id) REFERENCES jump_and_runs(id)" +
                             ")"
             )
+            // FIXME: This is a simple solution but is not really good.
+            // After a reload the jump and runs should go on.
+            // If the server restarts or crashes that should be handled too.
+            // On Plugin load the deletion of old jump and runs should be done not here.
             statement.executeUpdate("DELETE FROM runs")
             statement.execute("PRAGMA journal_mode=WAL;")
         }
