@@ -43,7 +43,7 @@ data class Jr(val id: Int, val location1: Location, val location2: Location, val
             }
             return newBlock
         }
-        throw RuntimeException("Could not find a good next block")
+        throw RuntimeException("Could not find a good next block") // FIXME: this should be handled
     }
 
     private fun minAngle(vec1: Vector, vec2: Vector): Float {
